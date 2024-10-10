@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "CustomerDetails";
+$dbname = "Bakery";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -12,7 +12,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT Customer_ID,customer_name,customer_address FROM customer_details";
+$sql = "SELECT customer_ID,customer_Name,customer_Address,contact_Number FROM customer_Details";
 $result = $conn->query($sql);
 
 $customers = array();
@@ -57,9 +57,32 @@ if ($result->num_rows > 0) {
             </header>
             <div class="content">
                 <button class="add-customer">+ Add New Customer</button>
+                <!-- Modal -->
+                <div id="customerModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h2>Add New Customer</h2>
+                        <form action="/submit-customer-details" method="post">
+                            <label for="customer_Name">Customer Name:</label>
+                            <input type="text" id="customer_Name" name="customer_Name" required>
+
+                            <label for="address">Address:</label>
+                            <input type="text" id="customer_Address" name="customer_Address" required>
+
+                            <label for="contact_No">Contact No:</label>
+                            <input type="text" id="contact_No" name="contact_No" required>
+
+                            <div class="buttons">
+                                <button type="reset" class="btn reset">Reset</button>
+                                <button type="submit" class="btn submit">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="customer-list">
                     <div class="search-bar">
-                        <input type="text" placeholder="Customer Details">
+                        <input type="text" placeholder="Search by Customer Name">
                         <button class="search-btn">🔍</button>
                     </div>
                     <div class="table-container">
@@ -76,10 +99,10 @@ if ($result->num_rows > 0) {
                             <tbody>
                                 <?php foreach ($customers as $customer): ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($customer['Customer_ID']); ?></td>
-                                        <td><?php echo htmlspecialchars($customer['customer_name']); ?></td>
-                                        <td><?php echo htmlspecialchars($customer['customer_address']); ?></td>
-                                        <td><?php echo htmlspecialchars($customer['Contact_Number']); ?></td>
+                                        <td><?php echo htmlspecialchars($customer['customer_ID']); ?></td>
+                                        <td><?php echo htmlspecialchars($customer['customer_Name']); ?></td>
+                                        <td><?php echo htmlspecialchars($customer['customer_Address']); ?></td>
+                                        <td><?php echo htmlspecialchars($customer['contact_Number']); ?></td>
                                         <td>
                                             <button class="edit-btn">✏️</button>
                                             <button class="delete-btn">🗑️</button>
