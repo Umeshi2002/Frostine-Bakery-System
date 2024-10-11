@@ -119,6 +119,7 @@ main {
     flex-grow: 1;
     padding: 20px;
     overflow-x: auto;
+    height: calc(100vh - 80px);
 }
 
 header {
@@ -195,6 +196,11 @@ header {
     border-radius: 5px;
 }
 
+.table-container {
+    overflow-x: auto;
+    max-height: calc(100vh - 250px);
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -210,7 +216,7 @@ th, td {
 th {
     background-color: #f0f0f0;
     position: sticky;
-    top: 60px;
+    top: 0;
     z-index: 10;
 }
 

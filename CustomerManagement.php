@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "Bakery";
+$dbname = "bakery";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -12,7 +12,53 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT customer_ID,customer_Name,customer_Address,contact_Number FROM customer_Details";
+// Handle Add Customer request
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_customer'])) {
+    $customer_Name = $_POST["customer_Name"];
+    $customer_Address = $_POST["customer_Address"];
+    $contact_No = $_POST["contact_Number"];
+
+    $sql = "INSERT INTO customer_details (customer_Name, customer_Address, contact_Number)
+            VALUES ('$customer_Name', '$customer_Address', '$contact_No')";
+    
+    if ($conn->query($sql) === TRUE) {
+        echo "<script>alert('Customer added successfully');</script>";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+
+// Handle Edit Customer request
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['edit_customer'])) {
+    $customer_ID = $_POST["customer_ID"];
+    $customer_Name = $_POST["customer_Name"];
+    $customer_Address = $_POST["customer_Address"];
+    $contact_No = $_POST["contact_Number"];
+
+    $sql = "UPDATE customer_details SET customer_Name='$customer_Name', customer_Address='$customer_Address', contact_Number='$contact_No' WHERE customer_ID=$customer_ID";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "<script>alert('Customer updated successfully');</script>";
+    } else {
+        echo "Error updating record: " . $conn->error;
+    }
+}
+
+// Handle Delete Customer request
+if (isset($_GET["delete_customer_ID"])) {
+    $customer_ID = $_GET["delete_customer_ID"];
+
+    $sql = "DELETE FROM customer_details WHERE customer_ID=$customer_ID";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "<script>alert('Customer deleted successfully');</script>";
+    } else {
+        echo "Error deleting record: " . $conn->error;
+    }
+}
+
+// Fetch all customers
+$sql = "SELECT customer_ID, customer_Name, customer_Address, contact_Number FROM customer_details";
 $result = $conn->query($sql);
 
 $customers = array();
@@ -22,6 +68,8 @@ if ($result->num_rows > 0) {
     }
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,16 +105,16 @@ if ($result->num_rows > 0) {
             </header>
             <div class="content">
                 <button class="add-customer">+ Add New Customer</button>
-                <!-- Modal -->
+                <!-- Add Customer Modal -->
                 <div id="customerModal" class="modal">
                     <div class="modal-content">
                         <span class="close">&times;</span>
                         <h2>Add New Customer</h2>
-                        <form action="/submit-customer-details" method="post">
+                        <form action="add_customer.php" method="post">
                             <label for="customer_Name">Customer Name:</label>
                             <input type="text" id="customer_Name" name="customer_Name" required>
 
-                            <label for="address">Address:</label>
+                            <label for="customer_Address">Address:</label>
                             <input type="text" id="customer_Address" name="customer_Address" required>
 
                             <label for="contact_No">Contact No:</label>
@@ -80,10 +128,48 @@ if ($result->num_rows > 0) {
                     </div>
                 </div>
 
+                <!-- Edit Customer Modal -->
+                <div id="editCustomerModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h2>Edit Customer</h2>
+                        <form action="edit_customer.php" method="post">
+                            <input type="hidden" id="edit_customer_ID" name="customer_ID">
+                            <label for="edit_customer_Name">Customer Name:</label>
+                            <input type="text" id="edit_customer_Name" name="customer_Name" required>
+
+                            <label for="edit_customer_Address">Address:</label>
+                            <input type="text" id="edit_customer_Address" name="customer_Address" required>
+
+                            <label for="edit_contact_No">Contact No:</label>
+                            <input type="text" id="edit_contact_No" name="contact_No" required>
+
+                            <div class="buttons">
+                                <button type="submit" class="btn submit">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Delete Confirmation Modal -->
+                <div id="deleteCustomerModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h2>Delete Customer</h2>
+                        <p>Are you sure you want to delete this customer?</p>
+                        <div class="buttons">
+                            <button id="confirmDelete" class="btn delete">Yes</button>
+                            <button class="btn cancel">No</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="customer-list">
                     <div class="search-bar">
-                        <input type="text" placeholder="Search by Customer Name">
-                        <button class="search-btn">🔍</button>
+                        <form method="GET" action="">
+                            <input type="text" placeholder="Search by Customer Name">
+                            <button class="search-btn">🔍</button>
+                        </form>
                     </div>
                     <div class="table-container">
                         <table>
@@ -98,7 +184,7 @@ if ($result->num_rows > 0) {
                             </thead>
                             <tbody>
                                 <?php foreach ($customers as $customer): ?>
-                                    <tr>
+                                <tr>
                                         <td><?php echo htmlspecialchars($customer['customer_ID']); ?></td>
                                         <td><?php echo htmlspecialchars($customer['customer_Name']); ?></td>
                                         <td><?php echo htmlspecialchars($customer['customer_Address']); ?></td>
