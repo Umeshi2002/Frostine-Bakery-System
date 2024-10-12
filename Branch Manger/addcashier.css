@@ -1,0 +1,119 @@
+/* Container */
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 80px;
+  background-color: #faf5ef;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .logo {
+  width: 75px;
+  margin-bottom: 20px;
+}
+
+.sidebar nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar nav ul li {
+  margin: 20px 0;
+}
+
+.sidebar nav ul li a img {
+  width: 30px;
+}
+
+/* Main Content */
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #fff;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.main-content h1 {
+  font-size: 24px;
+  color: #b48773;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Form Container */
+.form-container {
+  background-color: #faf5ef;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container label {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.form-container input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  background-color: #f3f3f3;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.add-btn, .cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-btn {
+  background-color: #b48773;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #e5e5e5;
+  color: #333;
+}
+
+/* Profile Section */
+.profile-section {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
+.profile-section .profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+}

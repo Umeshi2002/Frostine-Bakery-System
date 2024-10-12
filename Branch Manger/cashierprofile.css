@@ -1,0 +1,138 @@
+/* Container */
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 80px;
+  background-color: #faf5ef;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .logo {
+  width: 40px;
+  margin-bottom: 20px;
+}
+
+.sidebar nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar nav ul li {
+  margin: 20px 0;
+}
+
+.sidebar nav ul li a img {
+  width: 30px;
+}
+
+/* Main Content */
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #fff;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.main-content h1 {
+  font-size: 24px;
+  color: #b48773;
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+/* Profile Container (Search and Buttons) */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.search-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.search-section label {
+  font-size: 18px;
+  color: #333;
+  margin-right: 10px;
+}
+
+.search-section input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.search-section .search-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.search-section .search-btn img {
+  width: 20px;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.update-btn, .delete-btn, .cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #b48773;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #e5e5e5;
+  color: #333;
+}
+
+/* Image Section */
+.image-section {
+  display: flex;
+  align-items: center;
+}
+
+.image-section img {
+  max-width: 300px;
+  border-radius: 10px;
+}
+
+/* Profile Section */
+.profile-section {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
+.profile-section .profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+}
