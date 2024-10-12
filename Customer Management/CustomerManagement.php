@@ -91,7 +91,7 @@ if ($result->num_rows > 0) {
                 </ul>
             </nav>
             <div class="logo">
-                <img src="images/FrostineLogo.png" alt="Frostine Logo">
+                <img src="FrostineLogo.png" alt="Frostine Logo">
             </div>
         </aside>
         <main>
