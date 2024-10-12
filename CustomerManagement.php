@@ -16,10 +16,10 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_customer'])) {
     $customer_Name = $_POST["customer_Name"];
     $customer_Address = $_POST["customer_Address"];
-    $contact_No = $_POST["contact_Number"];
+    $contact_Number = $_POST["contact_Number"];
 
     $sql = "INSERT INTO customer_details (customer_Name, customer_Address, contact_Number)
-            VALUES ('$customer_Name', '$customer_Address', '$contact_No')";
+            VALUES ('$customer_Name', '$customer_Address', '$contact_Number')";
     
     if ($conn->query($sql) === TRUE) {
         echo "<script>alert('Customer added successfully');</script>";
@@ -33,9 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['edit_customer'])) {
     $customer_ID = $_POST["customer_ID"];
     $customer_Name = $_POST["customer_Name"];
     $customer_Address = $_POST["customer_Address"];
-    $contact_No = $_POST["contact_Number"];
+    $contact_Number = $_POST["contact_Number"];
 
-    $sql = "UPDATE customer_details SET customer_Name='$customer_Name', customer_Address='$customer_Address', contact_Number='$contact_No' WHERE customer_ID=$customer_ID";
+    $sql = "UPDATE customer_details SET customer_Name='$customer_Name', customer_Address='$customer_Address', contact_Number='$contact_Number' WHERE customer_ID=$customer_ID";
 
     if ($conn->query($sql) === TRUE) {
         echo "<script>alert('Customer updated successfully');</script>";
@@ -68,7 +68,6 @@ if ($result->num_rows > 0) {
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -110,19 +109,19 @@ if ($result->num_rows > 0) {
                     <div class="modal-content">
                         <span class="close">&times;</span>
                         <h2>Add New Customer</h2>
-                        <form action="add_customer.php" method="post">
+                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                             <label for="customer_Name">Customer Name:</label>
                             <input type="text" id="customer_Name" name="customer_Name" required>
 
                             <label for="customer_Address">Address:</label>
                             <input type="text" id="customer_Address" name="customer_Address" required>
 
-                            <label for="contact_No">Contact No:</label>
-                            <input type="text" id="contact_No" name="contact_No" required>
+                            <label for="contact_Number">Contact No:</label>
+                            <input type="text" id="contact_Number" name="contact_Number" required>
 
                             <div class="buttons">
                                 <button type="reset" class="btn reset">Reset</button>
-                                <button type="submit" class="btn submit">Register</button>
+                                <button type="submit" name="add_customer" class="btn submit">Register</button>
                             </div>
                         </form>
                     </div>
@@ -133,7 +132,7 @@ if ($result->num_rows > 0) {
                     <div class="modal-content">
                         <span class="close">&times;</span>
                         <h2>Edit Customer</h2>
-                        <form action="edit_customer.php" method="post">
+                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                             <input type="hidden" id="edit_customer_ID" name="customer_ID">
                             <label for="edit_customer_Name">Customer Name:</label>
                             <input type="text" id="edit_customer_Name" name="customer_Name" required>
@@ -141,11 +140,11 @@ if ($result->num_rows > 0) {
                             <label for="edit_customer_Address">Address:</label>
                             <input type="text" id="edit_customer_Address" name="customer_Address" required>
 
-                            <label for="edit_contact_No">Contact No:</label>
-                            <input type="text" id="edit_contact_No" name="contact_No" required>
+                            <label for="edit_contact_Number">Contact No:</label>
+                            <input type="text" id="edit_contact_Number" name="contact_Number" required>
 
                             <div class="buttons">
-                                <button type="submit" class="btn submit">Save Changes</button>
+                                <button type="submit" name="edit_customer" class="btn submit">Save Changes</button>
                             </div>
                         </form>
                     </div>
@@ -185,15 +184,15 @@ if ($result->num_rows > 0) {
                             <tbody>
                                 <?php foreach ($customers as $customer): ?>
                                 <tr>
-                                        <td><?php echo htmlspecialchars($customer['customer_ID']); ?></td>
-                                        <td><?php echo htmlspecialchars($customer['customer_Name']); ?></td>
-                                        <td><?php echo htmlspecialchars($customer['customer_Address']); ?></td>
-                                        <td><?php echo htmlspecialchars($customer['contact_Number']); ?></td>
-                                        <td>
-                                            <button class="edit-btn">✏️</button>
-                                            <button class="delete-btn">🗑️</button>
-                                        </td>
-                                    </tr>
+                                    <td><?php echo htmlspecialchars($customer['customer_ID']); ?></td>
+                                    <td><?php echo htmlspecialchars($customer['customer_Name']); ?></td>
+                                    <td><?php echo htmlspecialchars($customer['customer_Address']); ?></td>
+                                    <td><?php echo htmlspecialchars($customer['contact_Number']); ?></td>
+                                    <td>
+                                        <button class="edit-btn" data-id="<?php echo $customer['customer_ID']; ?>" data-name="<?php echo htmlspecialchars($customer['customer_Name']); ?>" data-address="<?php echo htmlspecialchars($customer['customer_Address']); ?>" data-contact="<?php echo htmlspecialchars($customer['contact_Number']); ?>">✏️</button>
+                                        <button class="delete-btn" data-id="<?php echo $customer['customer_ID']; ?>">🗑️</button>
+                                    </td>
+                                </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
