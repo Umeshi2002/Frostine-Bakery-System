@@ -9,12 +9,17 @@
 /* Sidebar */
 .sidebar {
   width: 80px;
+  height: 100vh; /* Ensures sidebar stretches the full height */
   background-color: #faf5ef;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  position: fixed; /* Fixes sidebar in place */
+  left: 0; /* Aligns sidebar to the left */
+  top: 0;
+  z-index: 1; /* Keeps it on top */
 }
 
 .sidebar .logo {
@@ -25,6 +30,7 @@
 .sidebar nav ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 .sidebar nav ul li {
@@ -37,6 +43,9 @@
 
 /* Main Content */
 .main-content {
+  margin-left: 80px;
+  margin-top: -30px;
+  margin-bottom: -10px;
   flex-grow: 1;
   padding: 20px;
   background-color: #fff;
