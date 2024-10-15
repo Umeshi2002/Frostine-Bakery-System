@@ -60,13 +60,24 @@
   margin-bottom: 30px;
 }
 
-/* Form Container */
+/* Form Container 
 .form-container {
   background-color: #faf5ef;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}*/
+/* Form Container */
+.form-container {
+  width: 190%;           /* Set a width that fits within the screen */
+  max-width: 1200px;    /* Set a maximum width for larger screens */
+  margin: 20px auto;   /* Center the form container with some margin */
+  background-color: #faf5ef;
+  padding: 10px;       /* Reduced padding */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 
 .form-container form {
   display: flex;
@@ -74,8 +85,8 @@
 }
 
 .form-container label {
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-size: 16px;
+  margin-bottom: 5px;
   color: #333;
 }
 
@@ -86,7 +97,7 @@
   margin-bottom: 20px;
   font-size: 16px;
   background-color: #f3f3f3;
-}
+}*/
 
 /* Buttons */
 .buttons {
