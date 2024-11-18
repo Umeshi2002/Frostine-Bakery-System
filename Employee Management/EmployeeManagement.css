@@ -75,6 +75,7 @@ body, html {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+
 .close {
     position: absolute;
     right: 15px;
@@ -181,7 +182,7 @@ header {
     background-color: #e0e0e0;
 }
 
-.add-customer {
+.add-employee {
     background-color: black;
     color: white;
     text-align: right;
@@ -211,7 +212,9 @@ header {
     overflow-x: auto;
     max-height: calc(100vh - 250px);
     position: relative;
-    
+    margin-top: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 table {

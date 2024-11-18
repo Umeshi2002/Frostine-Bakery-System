@@ -32,102 +32,116 @@ window.onclick = function(event) {
     }
 }
 
-// Open edit modal when clicking on edit button
-document.querySelectorAll('.edit-btn').forEach(function(editBtn) {
-    editBtn.onclick = function() {
-        // Get customer data from data attributes
-        var customer_ID = this.getAttribute('data-id');
-        var customer_Name = this.getAttribute('data-name');
-        var customer_Address = this.getAttribute('data-address');
-        var contact_Number = this.getAttribute('data-contact');
+// Form validation function
+function validateForm(name, address, contact) {
+    let isValid = true;
+    let errorMessage = "";
 
-        // Set data to the form
-        document.getElementById('edit_customer_ID').value = customer_ID;
-        // $('#edit_customer_ID').val(customer_ID);
-        document.getElementById('edit_customer_Name').value = customer_Name;
-        document.getElementById('edit_customer_Address').value = customer_Address;
-        document.getElementById('edit_contact_Number').value = contact_Number;
-
-        // Open edit modal
-        editModal.style.display = "block";
+    // Validate name (only letters and spaces)
+    if (!/^[a-zA-Z\s]+$/.test(name)) {
+        errorMessage += "Name should only contain letters and spaces\n";
+        isValid = false;
     }
-});
 
-// Open delete confirmation modal when clicking on delete button
-document.querySelectorAll('.delete-btn').forEach(function(deleteBtn) {
-    deleteBtn.onclick = function() {
-        var customer_ID = this.getAttribute('data-id');
-        document.getElementById('confirmDelete').setAttribute('data-id', customer_ID);
-        deleteModal.style.display = "block";
+    // Validate address (not empty and minimum length)
+    if (address.trim().length < 5) {
+        errorMessage += "Address should be at least 5 characters long\n";
+        isValid = false;
     }
-});
 
-// Handle delete confirmation
-document.getElementById('confirmDelete').onclick = function() {
-    var customer_ID = this.getAttribute('data-id');
-    // Redirect to delete customer with the customer ID
-    window.location.href = window.location.href + "?delete_customer_ID=" + customer_ID;
+    // Validate contact number (10 digits)
+    if (!/^\d{10}$/.test(contact)) {
+        errorMessage += "Contact number should be exactly 10 digits\n";
+        isValid = false;
+    }
+
+    if (!isValid) {
+        alert(errorMessage);
+    }
+    return isValid;
 }
 
-// Search functionality
-document.querySelector('.search-btn').onclick = function (event) {
-    event.preventDefault(); // Prevent form submission
-    // Get the search term
-    var searchTerm = document.querySelector('.search-bar input').value.toLowerCase();
+// Handle edit customer form submission
+document.querySelector('#editCustomerModal form').onsubmit = function(e) {
+    const name = document.getElementById('edit_customer_Name').value;
+    const address = document.getElementById('edit_customer_Address').value;
+    const contact = document.getElementById('edit_contact_Number').value;
 
-    // Get all table rows
-    var rows = document.querySelectorAll('table tbody tr');
+    if (!validateForm(name, address, contact)) {
+        e.preventDefault();
+        return false;
+    }
+    return true;
+};
 
-    // Loop through the rows
-    rows.forEach(function (row) {
-        // Get the customer name from the second column (index 1)
-        var customerName = row.cells[1].textContent.toLowerCase();
+// Handle add customer form submission
+document.querySelector('#customerModal form').onsubmit = function(e) {
+    const name = document.getElementById('customer_Name').value;
+    const address = document.getElementById('customer_Address').value;
+    const contact = document.getElementById('contact_Number').value;
 
-        // Check if the search term is in the customer name
-        if (customerName.includes(searchTerm)) {
-            // Show the row if the customer name contains the search term
-            row.style.display = '';
-        } else {
-            // Hide the row if the name does not match
-            row.style.display = 'none';
+    if (!validateForm(name, address, contact)) {
+        e.preventDefault();
+        return false;
+    }
+    return true;
+};
+
+// Edit button functionality
+function attachEditListeners() {
+    document.querySelectorAll('.edit-btn').forEach(function(editBtn) {
+        editBtn.onclick = function() {
+            var customer_ID = this.getAttribute('data-id');
+            var customer_Name = this.getAttribute('data-name');
+            var customer_Address = this.getAttribute('data-address');
+            var contact_Number = this.getAttribute('data-contact');
+
+            document.getElementById('edit_customer_ID').value = customer_ID;
+            document.getElementById('edit_customer_Name').value = customer_Name;
+            document.getElementById('edit_customer_Address').value = customer_Address;
+            document.getElementById('edit_contact_Number').value = contact_Number;
+
+            editModal.style.display = "block";
         }
     });
 }
 
-// Add event listeners after DOM is fully loaded
+// Delete button functionality
+function attachDeleteListeners() {
+    document.querySelectorAll('.delete-btn').forEach(function(deleteBtn) {
+        deleteBtn.onclick = function() {
+            var customer_ID = this.getAttribute('data-id');
+            document.getElementById('confirmDelete').setAttribute('data-id', customer_ID);
+            deleteModal.style.display = "block";
+        }
+    });
+}
+
+// Handle delete confirmation
+document.getElementById('confirmDelete').onclick = function() {
+    var customer_ID = this.getAttribute('data-id');
+    window.location.href = 'CustomerManagement.php?delete_customer_ID=' + encodeURIComponent(customer_ID);
+};
+
+// Cancel delete
+document.querySelector('#deleteCustomerModal .submit').onclick = function() {
+    deleteModal.style.display = "none";
+};
+
+// Search functionality
+document.querySelector('.search-btn').onclick = function(event) {
+    event.preventDefault();
+    var searchTerm = document.querySelector('.search-bar input').value.toLowerCase();
+    var rows = document.querySelectorAll('table tbody tr');
+
+    rows.forEach(function(row) {
+        var customerName = row.cells[1].textContent.toLowerCase();
+        row.style.display = customerName.includes(searchTerm) ? '' : 'none';
+    });
+}
+
+// Attach event listeners when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Re-attach event listeners to dynamically added elements
-    function reattachListeners() {
-        // Edit buttons
-        document.querySelectorAll('.edit-btn').forEach(function(editBtn) {
-            editBtn.onclick = function() {
-                var customer_ID = this.getAttribute('data-id');
-                var customer_Name = this.getAttribute('data-name');
-                var customer_Address = this.getAttribute('data-address');
-                var contact_Number = this.getAttribute('data-contact');
-
-                document.getElementById('edit_customer_ID').value = customer_ID;
-                document.getElementById('edit_customer_Name').value = customer_Name;
-                document.getElementById('edit_customer_Address').value = customer_Address;
-                document.getElementById('edit_contact_Number').value = contact_Number;
-
-                editModal.style.display = "block";
-            }
-        });
-
-        // Delete buttons
-        document.querySelectorAll('.delete-btn').forEach(function(deleteBtn) {
-            deleteBtn.onclick = function() {
-                var customer_ID = this.getAttribute('data-id');
-                document.getElementById('confirmDelete').setAttribute('data-id', customer_ID);
-                deleteModal.style.display = "block";
-            }
-        });
-    }
-
-    // Call reattachListeners initially
-    reattachListeners();
-
-    // You might want to call reattachListeners() after any AJAX operations 
-    // that update the table content
+    attachEditListeners();
+    attachDeleteListeners();
 });
